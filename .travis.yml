@@ -9,15 +9,15 @@ script:
   - docker run -e CI=true trensik/react-test npm run test
 
 after_success:
-  - docker build -t trensik/multi-react ./client
+  - docker build -t trensik/multi-client ./client
   - docker build -t trensik/multi-nginx ./nginx
   - docker build -t trensik/multi-server ./server
   - docker build -t trensik/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push trensik/multi-client
   - docker push trensik/multi-nginx
   - docker push trensik/multi-server
   - docker push trensik/multi-worker
-  - docker push trensik/multi-react
 
 deploy:
   provider: elasticbeanstalk
